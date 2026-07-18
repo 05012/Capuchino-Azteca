@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frappé Nube — Frapés artesanales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --crema: #FFFBF7;
+    --celeste: #B4E4F1;
+    --celeste-suave: #E3F5FA;
+    --rosa: #F8C8DC;
+    --rosa-suave: #FCE8F0;
+    --morado: #9B7EDE;
+    --morado-oscuro: #4A3B6B;
+    --morado-suave: #EDE6FA;
+    --sombra: rgba(74, 59, 107, 0.12);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    font-family: 'Poppins', sans-serif;
+    background: var(--crema);
+    color: var(--morado-oscuro);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .display{
+    font-family: 'Fredoka', sans-serif;
+  }
+
+  a{ text-decoration:none; color:inherit; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 251, 247, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(74,59,107,0.08);
+  }
+
+  .nav-wrap{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo{
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-dot{
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--celeste), var(--rosa), var(--morado));
+  }
+
+  nav ul{
+    list-style:none;
+    display:flex;
+    gap: 8px;
+  }
+
+  nav a{
+    font-size: 0.92rem;
+    font-weight: 500;
+    padding: 9px 16px;
+    border-radius: 999px;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  nav a:hover, nav a:focus-visible{
+    background: var(--morado-suave);
+  }
+
+  nav a.active{
+    background: var(--morado);
+    color: white;
+  }
+
+  .nav-toggle{ display:none; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 70px 32px 100px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 40px;
+    overflow: hidden;
+  }
+
+  .blob{
+    position: absolute;
+    border-radius: 46% 54% 62% 38% / 42% 46% 54% 58%;
+    filter: blur(2px);
+    opacity: 0.55;
+    animation: float 12s ease-in-out infinite;
+    z-index: 0;
+  }
+  .blob-1{ width: 340px; height: 340px; background: var(--celeste); top: -80px; right: 160px; animation-delay: 0s;}
+  .blob-2{ width: 260px; height: 260px; background: var(--rosa); bottom: -60px; right: -40px; animation-delay: -4s;}
+  .blob-3{ width: 180px; height: 180px; background: var(--morado); opacity: 0.35; top: 40px; left: -60px; animation-delay: -8s;}
+
+  @keyframes float{
+    0%, 100%{ transform: translate(0,0) scale(1) rotate(0deg); }
+    33%{ transform: translate(20px, -25px) scale(1.05) rotate(8deg); }
+    66%{ transform: translate(-15px, 15px) scale(0.97) rotate(-6deg); }
+  }
+
+  .hero-text{ position: relative; z-index: 1; }
+
+  .eyebrow{
+    display:inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--morado);
+    background: var(--morado-suave);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+
+  .hero h1{
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.08;
+    font-weight: 600;
+    margin-bottom: 22px;
+  }
+
+  .hero h1 span{
+    background: linear-gradient(120deg, var(--morado), #d88fc0 60%, var(--celeste));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero p{
+    font-size: 1.05rem;
+    font-weight: 300;
+    max-width: 460px;
+    color: #6b5c8f;
+    margin-bottom: 32px;
+  }
+
+  .hero-cta{ display:flex; gap:14px; flex-wrap: wrap; }
+
+  .btn{
+    display:inline-block;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary{
+    background: var(--morado);
+    color: white;
+    box-shadow: 0 8px 20px var(--sombra);
+  }
+  .btn-primary:hover{ transform: translateY(-3px); box-shadow: 0 12px 26px var(--sombra); }
+
+  .btn-ghost{
+    background: transparent;
+    border: 1.5px solid var(--morado);
+    color: var(--morado-oscuro);
+  }
+  .btn-ghost:hover{ background: var(--morado-suave); }
+
+  /* ---------- SIGNATURE CUP ---------- */
+  .cup-stage{
+    position: relative;
+    z-index: 1;
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    height: 380px;
+  }
+
+  .cup{
+    width: 190px;
+    height: 280px;
+    position: relative;
+  }
+
+  .cup-glass{
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.55);
+    border: 2.5px solid rgba(74,59,107,0.25);
+    border-radius: 18px 18px 46px 46px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px var(--sombra);
+  }
+
+  .cup-liquid{
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 72%;
+    background: linear-gradient(180deg, var(--rosa) 0%, var(--celeste) 55%, var(--morado) 100%);
+    border-radius: 0 0 44px 44px;
+  }
+
+  .cup-liquid::before{
+    content:"";
+    position:absolute;
+    top: -10px; left:0; right:0; height: 22px;
+    background: inherit;
+    border-radius: 50%;
+    opacity: 0.9;
+  }
+
+  .cup-foam{
+    position:absolute;
+    left: -6px; right: -6px; top: 20%;
+    height: 34px;
+    background: #fffdf9;
+    border-radius: 50%;
+    box-shadow: 0 6px 0 rgba(255,255,255,0.6);
+  }
+
+  .cup-straw{
+    position:absolute;
+    top: -46px; right: 38px;
+    width: 14px; height: 130px;
+    background: repeating-linear-gradient(45deg, var(--rosa), var(--rosa) 8px, white 8px, white 16px);
+    border-radius: 8px;
+    transform: rotate(10deg);
+    box-shadow: 0 6px 14px var(--sombra);
+  }
+
+  /* ---------- SECTION COMMON ---------- */
+  section{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 90px 32px;
+    scroll-margin-top: 90px;
+  }
+
+  .section-head{
+    text-align:center;
+    max-width: 560px;
+    margin: 0 auto 56px;
+  }
+
+  .section-head .eyebrow{ margin-bottom: 14px; }
+
+  .section-head h2{
+    font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .section-head p{
+    color: #6b5c8f;
+    font-weight: 300;
+    font-size: 1rem;
+  }
+
+  /* ---------- MENU / SABORES ---------- */
+  #menu{ background: linear-gradient(180deg, transparent, var(--celeste-suave) 20%, var(--celeste-suave) 80%, transparent); }
+
+  .menu-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .frape-card{
+    background: white;
+    border-radius: 24px;
+    padding: 28px 24px 24px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(74,59,107,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .frape-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(74,59,107,0.14);
+  }
+
+  .mini-cup{
+    width: 56px;
+    height: 68px;
+    margin: 0 auto 18px;
+    position: relative;
+  }
+
+  .mini-cup-glass{
+    position:absolute; inset:0;
+    border: 2px solid rgba(74,59,107,0.2);
+    border-radius: 8px 8px 22px 22px;
+    background: rgba(255,255,255,0.6);
+    overflow: hidden;
+  }
+
+  .mini-cup-fill{
+    position:absolute; left:0; right:0; bottom:0;
+    border-radius: 0 0 20px 20px;
+  }
+
+  .frape-card h3{
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-align:center;
+  }
+
+  .frape-card .desc{
+    font-size: 0.88rem;
+    color: #7a6b9a;
+    text-align:center;
+    font-weight:300;
+    margin-bottom: 16px;
+    min-height: 40px;
+  }
+
+  .frape-card .price-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap: 10px;
+  }
+
+  .price-tag{
+    font-family:'Fredoka', sans-serif;
+    font-weight:600;
+    font-size: 1.05rem;
+    color: var(--morado-oscuro);
+  }
+
+  .badge-new{
+    position:absolute;
+    top: 16px; right: 16px;
+    background: var(--rosa);
+    color: var(--morado-oscuro);
+    font-size: 0.68rem;
+    font-weight:600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing:0.03em;
+  }
+
+  /* ---------- PROMOCIONES ---------- */
+  #promos{ position: relative; }
+
+  .promo-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+  }
+
+  .ticket{
+    position:relative;
+    background: linear-gradient(135deg, var(--morado-suave), white 60%);
+    border-radius: 20px;
+    padding: 30px 26px;
+    border: 1.5px dashed rgba(155,126,222,0.5);
+    overflow: hidden;
+  }
+
+  .ticket::before, .ticket::after{
+    content:"";
+    position:absolute;
+    width: 26px; height: 26px;
+    background: var(--crema);
+    border-radius:50%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .ticket::before{ left: -13px; }
+  .ticket::after{ right: -13px; }
+
+  .ticket .tag{
+    display:inline-block;
+    font-size: 0.7rem;
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    background: var(--morado);
+    color:white;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+
+  .ticket h3{
+    font-size: 1.3rem;
+    font-weight:600;
+    margin-bottom: 10px;
+  }
+
+  .ticket p{
+    font-size: 0.9rem;
+    color: #6b5c8f;
+    font-weight:300;
+    margin-bottom: 18px;
+  }
+
+  .ticket .promo-price{
+    display:flex;
+    align-items:baseline;
+    gap: 10px;
+  }
+
+  .promo-price .old{
+    text-decoration: line-through;
+    color: #b5a8d0;
+    font-size: 0.95rem;
+  }
+
+  .promo-price .new{
+    font-family:'Fredoka', sans-serif;
+    font-size: 1.6rem;
+    font-weight:700;
+    color: var(--morado);
+  }
+
+  /* ---------- SOBRE NOSOTROS ---------- */
+  #nosotros{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items:center;
+  }
+
+  .swatches{
+    display:flex;
+    gap: 14px;
+    margin-top: 26px;
+  }
+  .swatch{
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    box-shadow: 0 6px 14px var(--sombra);
+  }
+
+  #nosotros p{
+    font-weight: 300;
+    color: #6b5c8f;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .stat-row{
+    display:flex;
+    gap: 36px;
+    margin-top: 30px;
+  }
+  .stat b{
+    display:block;
+    font-family:'Fredoka', sans-serif;
+    font-size: 1.8rem;
+    color: var(--morado);
+  }
+  .stat span{
+    font-size: 0.82rem;
+    color: #8677a5;
+  }
+
+  .about-visual{
+    height: 340px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--celeste) 0%, var(--rosa) 50%, var(--morado) 100%);
+    position: relative;
+    overflow:hidden;
+  }
+  .about-visual::after{
+    content: "☕ 🍓 🌸";
+    position: absolute;
+    font-size: 3rem;
+    bottom: 24px; left: 24px;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
+  }
+
+  /* ---------- UBICACIÓN / CONTACTO ---------- */
+  #contacto{
+    background: var(--rosa-suave);
+    border-radius: 32px;
+    text-align:center;
+    max-width: 1140px;
+  }
+
+  .contact-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .contact-card{
+    background: white;
+    border-radius: 18px;
+    padding: 26px 20px;
+  }
+
+  .contact-card .icon{ font-size: 1.8rem; margin-bottom: 10px; }
+  .contact-card h4{ font-size: 1rem; font-weight:600; margin-bottom: 6px; }
+  .contact-card p{ font-size: 0.88rem; color:#7a6b9a; font-weight:300; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    text-align:center;
+    padding: 40px 32px;
+    color: #a294c2;
+    font-size: 0.85rem;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 860px){
+    .nav-wrap{ padding: 16px 20px; }
+    nav ul{
+      position: fixed;
+      top: 64px; left:0; right:0;
+      background: var(--crema);
+      flex-direction: column;
+      padding: 12px 20px 20px;
+      gap: 4px;
+      transform: translateY(-140%);
+      transition: transform 0.3s ease;
+      box-shadow: 0 12px 20px rgba(0,0,0,0.06);
+    }
+    nav ul.open{ transform: translateY(0); }
+    nav a{ display:block; text-align:center; }
+    .nav-toggle{
+      display:block;
+      background:none; border:none;
+      font-size: 1.4rem;
+      color: var(--morado-oscuro);
+      cursor:pointer;
+    }
+    .hero{ grid-template-columns: 1fr; padding-top: 44px; text-align:center; }
+    .hero p{ margin: 0 auto 32px; }
+    .hero-cta{ justify-content:center; }
+    .menu-grid, .promo-grid{ grid-template-columns: 1fr 1fr; }
+    #nosotros{ grid-template-columns: 1fr; }
+    .contact-grid{ grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 540px){
+    .menu-grid, .promo-grid{ grid-template-columns: 1fr; }
+    section{ padding: 64px 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .blob{ animation: none; }
+    *{ transition: none !important; }
+  }
+
+  :focus-visible{
+    outline: 2.5px solid var(--morado);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="logo"><span class="logo-dot"></span>Frappé Nube</div>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <nav>
+      <ul id="navList">
+        <li><a href="#inicio" class="nav-link">Inicio</a></li>
+        <li><a href="#menu" class="nav-link">Menú</a></li>
+        <li><a href="#promos" class="nav-link">Promociones</a></li>
+        <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
+        <li><a href="#contacto" class="nav-link">Visítanos</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section id="inicio" class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="hero-text">
+    <span class="eyebrow">Frapés hechos al momento</span>
+    <h1>Tu pausa dulce en <span>tonos de nube</span></h1>
+    <p>Frapés cremosos con sabores frutales y florales, batidos frente a ti. Un momento suave en medio del día.</p>
+    <div class="hero-cta">
+      <a href="#menu" class="btn btn-primary">Ver el menú</a>
+      <a href="#promos" class="btn btn-ghost">Promos de hoy</a>
+    </div>
+  </div>
+
+  <div class="cup-stage">
+    <div class="cup">
+      <div class="cup-glass">
+        <div class="cup-liquid"></div>
+        <div class="cup-foam"></div>
+      </div>
+      <div class="cup-straw"></div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="section-head">
+    <span class="eyebrow">Nuestro menú</span>
+    <h2>Elige tu sabor de nube</h2>
+    <p>Seis frapés, cada uno con su propio color y carácter.</p>
+  </div>
+
+  <div class="menu-grid">
+
+    <div class="frape-card">
+      <span class="badge-new">Nuevo</span>
+      <div class="mini-cup">
+        <div class="mini-cup-glass">
+          <div class="mini-cup-fill" style="height:70%; background:var(--rosa);"></div>
+        </div>
+      </div>
+      <h3>Frape Fresa Nube</h3>
+      <p class="desc">Fresa natural, leche cremosa y un toque de vainilla.</p>
+      <div class="price-row"><span class="price-tag">$3.80</span></div>
+    </div>
+
+    <div class="frape-card">
+      <div class="mini-cup">
+        <div class="mini-cup-glass">
+          <div class="mini-cup-fill" style="height:70%; background:var(--celeste);"></div>
+        </div>
+      </div>
+      <h3>Frape Cielo de Coco</h3>
+      <p class="desc">Coco tostado con leche de coco y hielo picado fino.</p>
+      <div class="price-row"><span class="price-tag">$3.60</span></div>
+    </div>
+
+    <div class="frape-card">
+      <div class="mini-cup">
+        <div class="mini-cup-glass">
+          <div class="mini-cup-fill" style="height:70%; background:var(--morado);"></div>
+        </div>
+      </div>
+      <h3>Frape Uva Lavanda</h3>
+      <p class="desc">Uva concord con un sutil aroma floral de lavanda.</p>
+      <div class="price-row"><span class="price-tag">$4.00</span></div>
+    </div>
+
+    <div class="frape-card">
+      <div class="mini-cup">
+        <div class="mini-cup-glass">
+          <div class="mini-cup-fill" style="height:70%; background:#d9b3ea;"></div>
+        </div>
+      </div>
+      <h3>Frape Taro Suave</h3>
+      <p class="desc">Taro cremoso con un final ligeramente dulce y terroso.</p>
+      <div class="price-row"><span class="price-tag">$4.10</span></div>
+    </div>
+
+    <div class="frape-card">
+      <span class="badge-new">Nuevo</span>
+      <div class="mini-cup">
+        <div class="mini-cup-glass">
+          <div class="mini-cup-fill" style="height:70%; background:#f6a8c4;"></div>
+        </div>
+      </div>
+      <h3>Frape Sandía Rosa</h3>
+      <p class="desc">Sandía fresca, un toque de menta y hielo natural.</p>
+      <div class="price-row"><span class="price-tag">$3.70</span></div>
+    </div>
+
+    <div class="frape-card">
+      <div class="mini-cup">
+        <div class="mini-cup-glass">
+          <div class="mini-cup-fill" style="height:70%; background:#8fd6e8;"></div>
+        </div>
+      </div>
+      <h3>Frape Menta Glaciar</h3>
+      <p class="desc">Menta fresca con chispas de chocolate blanco.</p>
+      <div class="price-row"><span class="price-tag">$3.90</span></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="promos">
+  <div class="section-head">
+    <span class="eyebrow">Promociones</span>
+    <h2>Endulza tu semana</h2>
+    <p>Ofertas activas por tiempo limitado, solo en tienda.</p>
+  </div>
+
+  <div class="promo-grid">
+
+    <div class="ticket">
+      <span class="tag">Lunes y martes</span>
+      <h3>2x1 en frapés medianos</h3>
+      <p>Válido de 3pm a 6pm. Aplica en toda la carta clásica.</p>
+      <div class="promo-price">
+        <span class="old">$7.60</span>
+        <span class="new">$3.80</span>
+      </div>
+    </div>
+
+    <div class="ticket">
+      <span class="tag">Combo</span>
+      <h3>Frape + waffle de nube</h3>
+      <p>Cualquier frape grande acompañado de un waffle suave.</p>
+      <div class="promo-price">
+        <span class="old">$6.90</span>
+        <span class="new">$5.20</span>
+      </div>
+    </div>
+
+    <div class="ticket">
+      <span class="tag">Club Nube</span>
+      <h3>El 6to frape es gratis</h3>
+      <p>Acumula sellos en cada compra y canjea tu favorito.</p>
+      <div class="promo-price">
+        <span class="new">Gratis</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="nosotros">
+  <div>
+    <span class="eyebrow">Nuestra historia</span>
+    <h2 style="font-size:2rem; font-weight:600; margin-bottom:16px;">Nacimos de una idea simple</h2>
+    <p>Frappé Nube empezó como un carrito pequeño con una idea: los frapés no tienen que ser solo café. Mezclamos fruta real, flores comestibles y colores suaves para crear algo que se ve tan bien como sabe.</p>
+    <p>Cada receta se prueba primero en casa antes de llegar a la barra, y ajustamos el dulzor según lo que pide cada estación.</p>
+    <div class="swatches">
+      <div class="swatch" style="background:var(--celeste);"></div>
+      <div class="swatch" style="background:var(--rosa);"></div>
+      <div class="swatch" style="background:var(--morado);"></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><b>6</b><span>sabores fijos</span></div>
+      <div class="stat"><b>100%</b><span>fruta real</span></div>
+      <div class="stat"><b>3</b><span>años sirviendo</span></div>
+    </div>
+  </div>
+  <div class="about-visual"></div>
+</section>
+
+<section id="contacto">
+  <div class="section-head" style="margin-bottom:0;">
+    <span class="eyebrow">Visítanos</span>
+    <h2>Te esperamos con un frape en mano</h2>
+    <p>Encuéntranos, escríbenos o síguenos para conocer sabores de temporada.</p>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="icon">📍</div>
+      <h4>Dirección</h4>
+      <p>Av. Las Nubes 245, Local 3</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">🕒</div>
+      <h4>Horario</h4>
+      <p>Lun a Dom · 10:00 am – 8:00 pm</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">💬</div>
+      <h4>Contacto</h4>
+      <p>hola@frappenube.com</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Frappé Nube. Hecho con leche, fruta y un poco de nube.
+</footer>
+
+<script>
+  // Toggle de navegación en móvil
+  const navToggle = document.getElementById('navToggle');
+  const navList = document.getElementById('navList');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navList.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  const links = document.querySelectorAll('.nav-link');
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      navList.classList.remove('open');
+    });
+  });
+
+  // Resaltar sección activa en el índice
+  const sections = document.querySelectorAll('section[id]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (!link) return;
+      if (entry.isIntersecting){
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
